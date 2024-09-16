@@ -1,14 +1,3 @@
-<html>
-	<head>
-        <style>
-            .box {
-                display: flex;
-                justify-content: center;
-            }
-        </style>
-<body><div class="box"><canvas id="canvas" style="background: url('outer-space.jpg'); background-dino: center;" width="1050" height="450"></canvas></div></body><script>
-
-
 let dino = { x : 0, y : 200 }
 let planet = { x : 0, y : 200, radius : 100 }
 
@@ -133,5 +122,3 @@ function animate(timestamp) {
 
   //  requestAnimationFrame(animate);
 
-</script>
-</html>
