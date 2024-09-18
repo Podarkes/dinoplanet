@@ -11,27 +11,29 @@ const radius = 100;
 let minRadius = 0;
 
 let displayX = 0;
+let displayY = 0;
 let displayMinRadius = 0;
-let font = "bold 20px serif";
+let font = "18px monospace";
 
 
 function drawDebugInfo() {
-    context.clearRect(0, 0, 1000, 200);
     context.fillStyle = "white";
     context.font = font; 
     displayX = Math.floor(state.planet.x);
     if (Math.floor(radius) % 50 == 0) {
         displayX = Math.floor(state.planet.x);
+        displayY = Math.floor(state.planet.y);
     }
     if (Math.floor(minRadius) % 5 == 0) {
         displayMinRadius = Math.floor(minRadius);
     }
-    var text = `state.dino.y = ${state.dino.y}, state.planet.x = ${displayX}, minRadius = ${displayMinRadius}`;
-    context.fillText(text, 100, 100);
+    var text1 = `dino:   x = ${state.dino.x}, y = ${state.dino.y}`;
+    var text2 = `planet: x = ${displayX}, y = ${displayY}, r = ${displayMinRadius}`;
+    context.fillText(text1, 50, 25);
+    context.fillText(text2, 50, 50);
 }
 
 function drawCircle() {
-    context.clearRect(0, 0, 2000, 2000);
 	context.beginPath();
 
 	context.fillStyle = 'blue';
@@ -60,6 +62,7 @@ function drawInnerCircle(x, y) {
 }
 
 function draw() {
+    context.clearRect(0, 0, 1050, 450);
     drawDebugInfo();
 	drawCircle();
     drawInnerCircle(state.dino.x, state.dino.y);
