@@ -39,12 +39,15 @@ function drawCircle() {
 	context.fillStyle = 'blue';
     if (state.planet.x < canvas.width / 2) {
         state.planet.radius -= 0.1;
-	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
         minRadius = state.planet.radius;
-    } else if (state.planet.x > canvas.width / 2) {
-        delta = minRadius - (state.planet.x - canvas.width/2) / 10; 
-        state.planet.radius = state.planet.radius + delta;
-	    context.arc(state.planet.x, 200, minRadius  + delta, 0, 2*Math.PI);
+	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
+    // find a way for the orbit movement not to so bouncy in the apex
+    // may it makes sense to come up with gradual change of radius
+    // beware of feature creep, we might not need it at all    
+    } else if (state.planet.x > 455) {
+        state.planet.radius += 0.1;
+        minRadius = state.planet.radius;
+	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
     }
 
     context.closePath();
