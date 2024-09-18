@@ -1,107 +1,76 @@
-let dino = { x : 0, y : 200 }
-let planet = { x : 0, y : 200, radius : 100 }
-
+import { state } from './state.js'
+import { handleKeyDown } from './keylisteners.js'
 
 const canvas = document.getElementById("canvas");
-// canvas.style.background = "black";
-
-function handleKeyDown(event) {
-    const key = event.key;
-    console.log(`Key pressed: ${key}`);
-
-    if (key == 'ArrowUp') {
-        if (dino.y + 10 < planet.y - planet.radius) {
-           dino.y = planet.y - planet.radius; 
-        } else {
-            dino.y -= 10;
-        }
-    }
-
-    if (key == 'ArrowDown') {
-        dino.y += 10;
-    }
-
-    if (key == 'ArrowRight') {
-        dino.x += 10;
-    }
-
-    if (key == 'ArrowLeft') {
-        dino.x -=10;
-    }
-}
 
 window.addEventListener('keydown', handleKeyDown);
 
-
-
-const ctx = canvas.getContext('2d');
+const context = canvas.getContext('2d');
 const radius = 100;
 
 let minRadius = 0;
-let font = "bold 36px serif";
 
 let displayX = 0;
 let displayMinRadius = 0;
+let font = "bold 20px serif";
 
-function drawCircle() {
 
-  ctx.clearRect(0, 0, 1050, 450);
-
-	ctx.beginPath();
-
-	ctx.fillStyle = 'blue';
-//ctx.globalCompositeOperation = 'destination-out'
-if (planet.x < canvas.width / 2) {
-    planet.radius -= 0.1;
-
-	ctx.arc(planet.x, planet.y, planet.radius, 0, 2*Math.PI);
-    minRadius = planet.radius;
-} else if (planet.x > canvas.width / 2) {
-    
-    delta = minRadius - (planet.x - canvas.width/2) / 10; 
-    planet.radius = planet.radius + delta;
-	ctx.arc(planet.x, 200, minRadius  + delta, 0, 2*Math.PI);
-}
-
-ctx.closePath();
-	ctx.stroke();
-ctx.fill();
-    ctx.fillStyle = "white";
-    ctx.font = font;
-    
-    displayX = Math.floor(planet.x);
+function drawDebugInfo() {
+    context.clearRect(0, 0, 1000, 200);
+    context.fillStyle = "white";
+    context.font = font; 
+    displayX = Math.floor(state.planet.x);
     if (Math.floor(radius) % 50 == 0) {
-        displayX = Math.floor(planet.x);
+        displayX = Math.floor(state.planet.x);
     }
     if (Math.floor(minRadius) % 5 == 0) {
         displayMinRadius = Math.floor(minRadius);
     }
-    
-    var text = `dino.y = ${dino.y}, planet.x = ${displayX}, minRadius = ${displayMinRadius}`;
+    var text = `state.dino.y = ${state.dino.y}, state.planet.x = ${displayX}, minRadius = ${displayMinRadius}`;
+    context.fillText(text, 100, 100);
+}
 
-    ctx.fillText(text, planet.x, 200);
+function drawCircle() {
+    context.clearRect(0, 0, 2000, 2000);
+	context.beginPath();
+
+	context.fillStyle = 'blue';
+    if (state.planet.x < canvas.width / 2) {
+        state.planet.radius -= 0.1;
+	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
+        minRadius = state.planet.radius;
+    } else if (state.planet.x > canvas.width / 2) {
+        delta = minRadius - (state.planet.x - canvas.width/2) / 10; 
+        state.planet.radius = state.planet.radius + delta;
+	    context.arc(state.planet.x, 200, minRadius  + delta, 0, 2*Math.PI);
+    }
+
+    context.closePath();
+	context.stroke();
+    context.fill();
 }
 
 function drawInnerCircle(x, y) {
-    	ctx.beginPath();
-	ctx.fillStyle = 'green';
-	ctx.arc(x, y, 10, 0, 2*Math.PI);
-
-ctx.closePath();
-	ctx.stroke();
-ctx.fill();
-    
+    context.beginPath();
+	context.fillStyle = 'green';
+	context.arc(x, y, 10, 0, 2*Math.PI);
+    context.closePath();
+	context.stroke();
+    context.fill();
 }
 
 function draw() {
+    drawDebugInfo();
 	drawCircle();
-    drawInnerCircle(dino.x, dino.y);
-    planet.x += 1;
-    dino.x += 1;
+    drawInnerCircle(state.dino.x, state.dino.y);
+    state.planet.x += 1;
+    state.dino.x += 1;
     requestAnimationFrame(draw);
 }
 
 draw();
+
+// below is not used yet
 
 function easeInOutQuad(t) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -109,16 +78,16 @@ function easeInOutQuad(t) {
 
 let startTime = null;
 function animate(timestamp) {
-//    if (!startTime) startTime = timestamp;
-  //  const progress = timestamp - startTime;
-  //  const easedProgress = easeInOutQuad(progress / 4000); 
- //   x = easedProgress * (canvas.width + 500);
-    drawCircle(x);
-   // if (progress < 4000) {
-        requestAnimationFrame(animate);
-  //  }
+    // if (!startTime) startTime = timestamp;
+    // const progress = timestamp - startTime;
+    // const easedProgress = easeInOutQuad(progress / 4000); 
+    // x = easedProgress * (canvas.width + 500);
+    // drawCircle(x);
+    // if (progress < 4000) {
+    //       requestAnimationFrame(animate);
+    // }
 }
 
 
-  //  requestAnimationFrame(animate);
+// requestAnimationFrame(animate);
 
