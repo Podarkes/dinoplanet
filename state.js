@@ -3,4 +3,3 @@ export let state = {
     planet: {x: 0, y: 200, radius: 100}
 }
 
-
