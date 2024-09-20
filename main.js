@@ -27,7 +27,7 @@ function drawDebugInfo() {
     if (Math.floor(minRadius) % 5 == 0) {
         displayMinRadius = Math.floor(minRadius);
     }
-    var text1 = `dino:   x = ${state.dino.x}, y = ${state.dino.y}`;
+    var text1 = `dino:   x = ${state.dino.x}, y = ${state.dino.y}, d = ${state.dino.distance}`;
     var text2 = `planet: x = ${displayX}, y = ${displayY}, r = ${displayMinRadius}`;
     context.fillText(text1, 50, 25);
     context.fillText(text2, 50, 50);
@@ -37,19 +37,23 @@ function drawCircle() {
 	context.beginPath();
 
 	context.fillStyle = 'blue';
-    if (state.planet.x < canvas.width / 2) {
-        state.planet.radius -= 0.1;
-        minRadius = state.planet.radius;
-	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
+//    if (state.planet.x < 200) {
+  //      state.planet.radius += 0.01;
     // find a way for the orbit movement not to so bouncy in the apex
     // may it makes sense to come up with gradual change of radius
     // beware of feature creep, we might not need it at all    
-    } else if (state.planet.x > 455) {
-        state.planet.radius += 0.1;
-        minRadius = state.planet.radius;
-	    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
-    }
+   // } else if (state.planet.x < 400) {
+     //   state.planet.radius += 0.03;
+   // } else if (state.planet.x < 600) {
+     //   state.planet.radius += 0.05;
+   // } else {
+      //  state.planet.radius += 0.08;
+   // }
 
+   // state.planet.y -= 0.05;
+
+	minRadius = state.planet.radius;
+    context.arc(state.planet.x, state.planet.y, state.planet.radius, 0, 2*Math.PI);
     context.closePath();
 	context.stroke();
     context.fill();
@@ -69,8 +73,8 @@ function draw() {
     drawDebugInfo();
 	drawCircle();
     drawInnerCircle(state.dino.x, state.dino.y);
-    state.planet.x += 1;
-    state.dino.x += 1;
+    // state.planet.x += 1;
+    // state.dino.x += 1;
     requestAnimationFrame(draw);
 }
 

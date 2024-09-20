@@ -1,27 +1,66 @@
 import { state } from './state.js';
 
+function getDist(x1, x2, y1, y2) {
+    let a = x1 - x2;
+    let b = y1 - y2;
+    return Math.sqrt(a*a + b*b);
+}
+
 export function handleKeyDown(event) {
 	const key = event.key;
 	console.log(`Key pressed: ${key}`);
+    
+    let x1 = state.planet.x;
+    let x2 = state.dino.x;
 
-	if (key == 'ArrowUp') {
-		if (state.dino.y + 10 < state.planet.y - state.planet.radius) {
-			state.dino.y = state.planet.y - state.planet.radius;
-		} else {
-			state.dino.y -= 10;
-		}
+    let y1 = state.planet.y;
+    let y2 = state.dino.y;
+    
+    let dist = state.dino.distance;
+	
+    if (key == 'ArrowUp') {
+	    let y2dest = y2 - 1;
+        let newDist = getDist(
+            x1, x2, y1, y2dest
+        ); 
+        if (newDist < state.planet.radius) {
+            state.dino.y -= 1;
+        }
 	}
 
 	if (key == 'ArrowDown') {
-		state.dino.y += 10;
+	    let y2dest = y2 + 1;
+        let newDist = getDist(
+            x1, x2, y1, y2dest
+        ); 
+	    if (newDist < state.planet.radius) {
+            state.dino.y += 1;
+        }
 	}
 
 	if (key == 'ArrowRight') {
-		state.dino.x += 10;
+
+	    let x2dest = x2 + 1;
+        let newDist = getDist(
+            x1, x2dest, y1, y2
+        ); 
+	    if (newDist < state.planet.radius) {
+            state.dino.x += 1;
+        }
 	}
 
 	if (key == 'ArrowLeft') {
-		state.dino.x -=10;
+	    let x2dest = x2 - 1;
+        let newDist = getDist(
+            x1, x2dest, y1, y2
+        ); 
+	    if (newDist < state.planet.radius) {
+            state.dino.x -= 1;
+        }
 	}
+
+    state.dino.distance = getDist(
+        state.planet.x, state.dino.x, state.planet.y, state.dino.y
+    ); 
 }
 
