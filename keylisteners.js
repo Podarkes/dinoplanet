@@ -21,6 +21,9 @@ export function handleKeyDown(event) {
     let dist = state.dino.distance;
 	
     if (key == 'ArrowUp') {
+        
+        console.log(state);    
+    
 	    let y2dest = y2 - step;
         let newDist = getDist(x1, x2, y1, y2dest); 
         if (newDist < state.planet.radius) {
