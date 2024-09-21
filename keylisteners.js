@@ -6,9 +6,30 @@ function getDist(x1, x2, y1, y2) {
     return Math.sqrt(a*a + b*b);
 }
 
+function dinoStepHandler() {
+
+   let isOnLand = [false, false, false];
+
+    for (let i = 0; i < 3; i++) {
+        let x = state.dino.x;
+        let y = state.dino.y;
+        let con = state.continents[i];
+        isOnLand[i] = (x >= con.x && x <= con.x + con.width) && (y >= con.y && y <= con.y + con.height);
+    }
+
+    if (isOnLand[0] || isOnLand[1] || isOnLand[2]) {
+        state.dino.step = 10;
+    } else {
+        state.dino.step = 1;
+    }
+
+} 
+
 export function handleKeyDown(event) {
 	const key = event.key;
 	console.log(`Key pressed: ${key}`);
+
+    dinoStepHandler();
     
     let step = state.dino.step;
 
