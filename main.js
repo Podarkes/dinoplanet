@@ -13,7 +13,7 @@ await app.init({ backgroundAlpha: 0, width: 600, height: 600 })
     const ctx = new Graphics();
     app.stage.addChild(ctx);
 
-    let color = 0x000000;
+    let color = 'blue';
 
     function drawCircle(color) {
         ctx.clear();
@@ -21,17 +21,21 @@ await app.init({ backgroundAlpha: 0, width: 600, height: 600 })
         .circle(600 / 2, 600 / 2, 200)
         .fill(color);
     }
+    
+    let { x , y } = state.dino;
 
     drawCircle(color);
+    drawDino(x, y);
 
     let elapsed = 0.0;
     app.ticker.add((delta) => {
         elapsed += delta.deltaTime / 60;
         
-    const r = Math.sin(elapsed) * 127 + 128;
-    const b = Math.cos(elapsed) * 127 + 128;
-    color = (r << 16) | (b);
-        drawCircle(color);
+//    const r = Math.sin(elapsed) * 127 + 128;
+//    const b = Math.cos(elapsed) * 127 + 128;
+//    color = (r << 16) | (b);
+//        drawCircle(color);
+        drawDino(state.dino.x, state.dino.y);
     });
     
 
@@ -83,13 +87,8 @@ function drawCircleLegacy() {
 }
 
 function drawDino(x, y) {
-         
-    ctx.beginPath();
-	ctx.fillStyle = 'green';
-	ctx.arc(x, y, 10, 0, 2*Math.PI);
-    ctx.closePath();
-	ctx.stroke();
-    ctx.fill();
+    // ctx.clear();
+    ctx.circle(x, y, 10).fill('green');
 }
 
 function draw() {
